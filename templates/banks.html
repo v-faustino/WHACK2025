@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+
+{% block title %}
+    <title>Banks</title>
+
+{% endblock %}
+
+{% block body %}
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="business">Business</a>
+        <a href="employee">Employee</a>
+        <a href="personal">Personal</a>
+        <a href="vendors">Vendors</a>
+        <a class="active" href="banks">Banks</a>
+        <a href="logout" style="float: right">Logout</a>
+    </div>
+
+
+    <div>
+        <h1>Banks</h1>
+        <table style="text-align: center;">
+            <tr>
+                <th>Bank Name</th>
+                <th>Maximum Loan (£)</th>
+                <th>Interest Rate (%)</th>
+                <th>Duration</th>
+                <th>Request a Loan</th>
+            </tr>
+            <tr>
+                <td>Horsey Bank</td>
+                <td>1000</td>
+                <td>3</td>
+                <td>5 months</td>
+                <td>
+                    <form method="POST">
+                        <input type="number"min="0" max="1000" name="amount" id="amount" placeholder="Amount">
+                        <input type="submit">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Nation Narrow</td>
+                <td>600</td>
+                <td>2</td>
+                <td>6 months</td>
+                <td>
+                    <form method="POST">
+                        <input type="number"min="0" max="600" name="amount" id="amount" placeholder="Amount">
+                        <input type="submit">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>ITCD</td>
+                <td>450</td>
+                <td>1.5</td>
+                <td>4 months</td>
+                <td>
+                    <form method="POST">
+                        <input type="number"min="0" max="450" name="amount" id="amount" placeholder="Amount">
+                        <input type="submit">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>MatEast</td>
+                <td>200</td>
+                <td>1</td>
+                <td>2 months</td>
+                <td>
+                    <form method="POST">
+                        <input type="number"min="0" max="200" name="amount" id="amount" placeholder="Amount">
+                        <input type="submit">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br><br> 
+        <p name="error" id="error">{{ text }}</p>
+        <p name="success" id="success">{{ text2 }}
+            
+        </p>
+    </div>
+{% endblock %}

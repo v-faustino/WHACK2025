@@ -15,12 +15,32 @@
 
 
 .topnav a:hover {
-  background-color: #ddd;
+  background-color: #3d0cde;
   color: black;
 }
 
 
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #06a4af;
   color: white;
+}
+
+table, label {
+  font-size: 20px;
+}
+
+
+th, td {
+   outline: solid;
+   padding: 5px;
+}
+
+#error {
+  color: red;
+  font-size: 20px;
+}
+
+#success {
+  color: rgb(3, 175, 3);
+  font-size: 20px;
 }
