@@ -9,7 +9,11 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     
-    session["user"] = request.form.get("username")
+    user = request.form.get("username")
+    if user == "":
+        return render_template("login.html", text="No fields may be left empty.")
+
+    session["user"] = user
     return render_template("index.html")
 
 @app.route("/logout")
