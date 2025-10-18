@@ -24,7 +24,7 @@ def logout():
 @app.route("/", methods=["POST", "GET"])
 def home():
     if not ("user" in session):
-        return render_template("login.html")
+        return redirect(url_for("login"))
     
 
     if request.method == "GET":
@@ -33,7 +33,7 @@ def home():
 @app.route("/business", methods=["POST", "GET"])
 def business():
     if not ("user" in session):
-        return render_template("login.html")
+        return redirect(url_for("login"))
     
 
     return render_template("business.html")
@@ -41,7 +41,7 @@ def business():
 @app.route("/employee", methods=["POST", "GET"])
 def employee():
     if not ("user" in session):
-        return render_template("login.html")
+        return redirect(url_for("login"))
     
 
     return render_template("employee.html")
@@ -49,7 +49,7 @@ def employee():
 @app.route("/personal", methods=["POST", "GET"])
 def personal():
     if not ("user" in session):
-        return render_template("login.html")
+        return redirect(url_for("login"))
     
 
     return render_template("personal.html")
@@ -57,7 +57,7 @@ def personal():
 @app.route("/vendors", methods=["POST", "GET"])
 def vendors():
     if not ("user" in session):
-        return render_template("login.html")
+        return redirect(url_for("login"))
     
 
     return render_template("vendors.html")
@@ -66,11 +66,11 @@ def vendors():
 @app.route("/banks", methods=["POST", "GET"])
 def banks():
     if not ("user" in session):
-        return render_template("login.html")
+        return redirect(url_for("login"))
     
 
     if request.method == "GET":
-        return render_template("banks.html")
+        return redirect(url_for("login"))
     
 
     amount = request.form.get("amount")
