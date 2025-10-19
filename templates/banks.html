@@ -10,10 +10,12 @@
         <a href="/">Home</a>
         <a href="business">Business</a>
         <a href="employee">Employee</a>
-        <a href="personal">Personal</a>
         <a href="vendors">Vendors</a>
         <a class="active" href="banks">Banks</a>
         <a href="logout" style="float: right">Logout</a>
+        <a style="float: right">Week : {{time}}</a>
+        <a href="advance" style="float: right">Advance 1 Week</a>
+        <a style="float: right"> £{{ money }}</a>
     </div>
 
 
@@ -24,62 +26,62 @@
                 <th>Bank Name</th>
                 <th>Maximum Loan (£)</th>
                 <th>Interest Rate (%)</th>
-                <th>Duration</th>
-                <th>Request a Loan</th>
+                <th>Duration (months) </th>
+                <th>Request Credit (£)</th>
             </tr>
+            {% for i in range(banks | length) %}
             <tr>
-                <td>Horsey Bank</td>
-                <td>1000</td>
-                <td>3</td>
-                <td>5 months</td>
-                <td>
-                    <form method="POST">
-                        <input type="number"min="0" max="1000" name="amount" id="amount" placeholder="Amount">
+                <form method="POST">
+                    <td>{{ banks[i]["Name"] }}</td>
+                    <td>{{ banks[i]["Max Amount"] }}</td>
+                    <td> {{ banks[i]["Interest" ]}} </td>
+                    <td> {{ banks[i]["Time"] / 4 }} </td>
+                    <td>
+                        <input type="hidden" name="index" id="index" value="{{ i }}">
+                        <input type="number" min="0.01" max="{{ banks[i]["Max Amount"] }}" step="0.01" name="amount" id="amount" placeholder="Amount">
                         <input type="submit">
-                    </form>
-                </td>
+                    </td>
+                </form>
             </tr>
-            <tr>
-                <td>Nation Narrow</td>
-                <td>600</td>
-                <td>2</td>
-                <td>6 months</td>
-                <td>
-                    <form method="POST">
-                        <input type="number"min="0" max="600" name="amount" id="amount" placeholder="Amount">
-                        <input type="submit">
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td>ITCD</td>
-                <td>450</td>
-                <td>1.5</td>
-                <td>4 months</td>
-                <td>
-                    <form method="POST">
-                        <input type="number"min="0" max="450" name="amount" id="amount" placeholder="Amount">
-                        <input type="submit">
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td>MatEast</td>
-                <td>200</td>
-                <td>1</td>
-                <td>2 months</td>
-                <td>
-                    <form method="POST">
-                        <input type="number"min="0" max="200" name="amount" id="amount" placeholder="Amount">
-                        <input type="submit">
-                    </form>
-                </td>
-            </tr>
+            {% endfor %}
         </table>
         <br><br> 
         <p name="error" id="error">{{ text }}</p>
-        <p name="success" id="success">{{ text2 }}
-            
-        </p>
+        <p name="success" id="success">{{ text2 }}</p>
+    </div>
+
+    <div>
+        <h1>Repay Loans</h1>
+        {% if loans | length == 0 %}
+            <p>No loans to repay</p>
+        
+            {% else %}
+        <table>
+            <tr>
+                <th>Bank Name</th>
+                <th>Amount Due (£)</th>
+                <th>Interest (%)</th>
+                <th>Payment Date (weeks)</th>
+                <th>Repay Loan</th>
+            </tr>
+            {% for loan in loans %}
+            <tr>
+                <td>{{ loan["Name"] }}</td>
+                <td>{{ loan["Amount"] }}</td>
+                <td> {{ loan["Interest" ]}} </td>
+                <td> {{ loan["Payment Date"] }}</td>
+                <td>
+                    <form action="/repay" method="POST">
+                        <input type="hidden" name="bank" id="bank" value="{{ loan["Name"] }}">
+                        <input type="number" name="repayAmount" id="repayAmount" min="0" max="{{ loan["Amount"] }}" step="0.01">
+                        <input type="submit"> 
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <p name="error" id="error">{{ msg }}</p>
+        <p name="success" id="success">{{ msg2 }}</p>
     </div>
 {% endblock %}

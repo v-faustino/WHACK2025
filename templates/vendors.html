@@ -10,16 +10,39 @@
         <a href="/">Home</a>
         <a href="business">Business</a>
         <a href="employee">Employee</a>
-        <a href="personal">Personal</a>
         <a class="active" href="vendors">Vendors</a>
         <a href="banks">Banks</a>
         <a href="logout" style="float: right">Logout</a>
+        <a style="float: right">Week : {{time}}</a>
+        <a href="advance" style="float: right">Advance 1 Week</a>
+        <a style="float: right"> £{{ money }}</a>
     </div>
 
 
     <div>
-        <h1>Vendors</h1>
-        <p>Where you buy your items from - different depending on startup company</p>
-        <p>Infinite stock ?? </p>
+        <h1>Items for Sale</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Cost (£)</th>
+                <th>Amount To Buy</th>
+            </tr>
+            {% for item in stock %}
+                <tr>
+                    <td> {{ item }} </td>
+                    <td> {{ price[item] }}</td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="name" id="name" value="{{ item }}">
+                            <input type="hidden" name="price" id="price" value=" {{ price[item] }}">
+                            <input type="number" min="0" name="amountResources" id="amountResources" placeholder="Amount">
+                            <input type="submit">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p style="color: red;"> {{ msg }} </p>
+        <p style="color: green;"> {{ msg2 }} </p>
     </div>
 {% endblock %}

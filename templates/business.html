@@ -5,25 +5,70 @@
 
 {% endblock %}
 
+
 {% block body %}
     <div class="topnav">
         <a href="/">Home</a>
         <a class="active" href="business">Business</a>
         <a href="employee">Employee</a>
-        <a href="personal">Personal</a>
         <a href="vendors">Vendors</a>
         <a href="banks">Banks</a>
         <a href="logout" style="float: right">Logout</a>
+        <a style="float: right">Week : {{time}}</a>
+        <a href="advance" style="float: right">Advance 1 Week</a>
+        <a style="float: right"> £{{ money }}</a>
     </div>
+        <h1>Vending Machines</h1>
+        <table>
+            <tr>
+                <th>Amount</th>
+                <th>Cost (£)</th>
+                <th>Get More</th>
+            </tr>
+            <tr>
+                <td> {{ machines}} </td>
+                <td>{{ cost }}</td>
+                <td>
+                    <form method="POST">
+                        <input type="number" min="0" name="amountMachines" id="amountMachines" placeholder="Amount">
+                        <input type="submit">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <h2>Weekly Running Cost</h2>
+        <p>Your total running cost is £{{ runningCost }}</p>
+        <br><br>
         <h1>Resources</h1>
-        <p>Your resources listed here - what are you selling</p>
+        {% if resources | length == 0 %}
+        <p>You have no resources </p>
 
-        <h1>Expenses</h1>
-        <h2>Daily</h2>
-        <p>Daily expenses, do some maths</p>
-        <h2>Monthly</h2>
-        <p>Monthly expenses, do some maths</p>
-        <h2>Annually</h2>
-        <p>Annual expenses, do some maths</p>
+        {% else %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Current Price (£)</th>
+                <th>Set New Price (£)</th>
+            </tr>
+            {% for resource in resources %}
+                <tr>
+                    <td> {{ resource }} </td>
+                    <td> {{ resources[resource][0] }} </td>
+                    <td> {{ resources[resource][1] }} </td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="item" id="item" value="{{ resource }}">
+                            <input type="number" name="newPrice" id="newPrice" placeholder="Set new price">
+                            <input type="submit">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+        <br>
+        <p style="color:red"> {{ msg }} </p>
     </div>
+    
 {% endblock %}

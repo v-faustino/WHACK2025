@@ -33,6 +33,7 @@ table, label {
 th, td {
    outline: solid;
    padding: 5px;
+   text-align: center;
 }
 
 #error {

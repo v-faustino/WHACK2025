@@ -14,20 +14,51 @@
         <a class="active" href="">Home</a>
         <a href="business">Business</a>
         <a href="employee">Employee</a>
-        <a href="personal">Personal</a>
         <a href="vendors">Vendors</a>
         <a href="banks">Banks</a>
         <a href="logout" style="float: right">Logout</a>
+        <a style="float: right">Week : {{time}}</a>
+        <a href="advance" style="float: right">Advance 1 Week</a>
+        <a style="float: right"> £{{ money }}</a> 
     </div>
 
-
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div>
         <h1>Homepage</h1>
-        <p>This is the home page. No clue what to display here.</p>
-        <h2>Suggestions</h2>
-        <p>Amazing suggestions</p>
-        <h2>News</h2>
-        <p>What is currently happening</p>
+        <h2>Sales report for the last week</h2>
+        {% if sold | length == 0 %}
+        <p>You have no report for the past week </p>
+
+        {% else %}
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Amount Sold</th>
+                <th>Sold At Price (£)</th>
+            </tr>
+            {% for item in sold %}
+                <tr>
+                    <td> {{ item }} </td>
+                    <td> {{ sold[item][0] }} </td>
+                    <td> {{ "{:.2f}".format(sold[item][1]) }} </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th>Total</th>
+                <td>{{ amount }}</td>
+                <td>{{ rev }}</td>
+            </tr>
+            </table>
+        {% endif %}
     </div>
     {% endblock %}
 </body>
