@@ -1,0 +1,1 @@
+{"loans": [{"Name": "Bank A", "Amount": 3012.5, "Interest": 0.05, "Payment Date": 3}], "machines": {"Amount": 2, "Resources": {"Soda": [113, 1.38], "Crisps": [132, 0.76], "Water": [409, 0.59]}, "Previous Week": {"Soda": [87, 1.38], "Crisps": [68, 0.76], "Water": [91, 0.59]}}, "money": 462.43}
