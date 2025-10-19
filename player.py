@@ -13,7 +13,6 @@ class Player:
 
     data = {"loans": [], "machines": {"Amount": 0, "Resources": {}, "Previous Week": {}}}
     currentPrices = None
-    paidMin = False
 
     def __init__(self, name, money):
         self.name = name
@@ -100,7 +99,7 @@ class Player:
                 loan["Amount"] += amount
                 break
         else:
-            self.data["loans"].append({"Name": name, "Amount": amount, "Interest": interest, "Payment Date": 4})
+            self.data["loans"].append({"Name": name, "Amount": amount, "Interest": interest, "Payment Date": 4, "Paid Minimum": False})
         
         self.storeUserData()
 
@@ -150,9 +149,9 @@ class Player:
             if (loans[i]["Payment Date"] == 0):
                 loans[i]["Amount"] *= (1 + loans[i]["Interest"] / 12) 
 
-                if self.paidMin:
+                if loans[i]["Paid Minimum"]:
                     loans[i]["Payment Date"] += 4
-                    self.paidMin = False
+                    loans[i]["Paid Minimum"] = False
 
             # Hard round here cuz i cba to find where to round in proper place
             loans[i]["Amount"] = round(loans[i]["Amount"], 2)
@@ -228,7 +227,7 @@ class Player:
         for loan in self.data["loans"]:
             if loan["Name"] == name:
                 if amount >= 0.5 * loan["Amount"]:
-                    self.paidMin = True
+                    loan["Paid Minimum"] = True
 
                 loan["Amount"] -= amount
                 totalMoney += amount

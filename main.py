@@ -219,7 +219,7 @@ def repay():
     msg = ""
     msg2 = ""
     if amount == "":
-        msg = "Fields cannot be empty"
+        flash("Fields cannot be empty", 'warning')
 
     if amount is None:
         msg = "Try again"
@@ -232,14 +232,14 @@ def repay():
             break
 
     if time != 1:
-        msg = "You can only pay back credit the week before it's due."
+        flash("You can only pay back credit the week before it's due.", 'warning')
 
     elif float(amount) <= player.getMoney():
         player.payLoan(bank, amount)
-        msg2 = "Payment made successfully"
+        flash("Payment successful", 'success')
 
     else:
-        msg="You cannot afford to make this payment."
+        flash("You cannot afford to make this payment", 'warning')
 
     # return render_template("banks.html", msg=msg, msg2=msg2, loans=player.getLoans(), banks=BANKS, money="{:.2f}".format(player.getMoney()), time=rn)
     msgs = [rn, "{:.2f}".format(player.getMoney()), BANKS, "", "", player.getLoans(), msg, msg2]
