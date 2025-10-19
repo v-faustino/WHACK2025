@@ -140,11 +140,11 @@ class Player:
             
             # If 4 weeks late, you lose!
             if (loans[i]["Payment Date"]) == -4:
-                status = "Game Over"      
+                return "Game Over"      
             # If payment overdue, increase interest
             elif (loans[i]["Payment Date"]) <= -1:
                 loans[i]["Interest"] += 0.02
-                status = "Overdue"
+                status = "Overdue" 
 
             # Apply interest monthly
             if (loans[i]["Payment Date"] == 0):

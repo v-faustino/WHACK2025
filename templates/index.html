@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
+    
     {% block body %}
     <nav class="topnav">
         <a class="active" href="">Home</a>
@@ -27,7 +28,8 @@
         {% if messages %}
             <div class="messages">
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
+
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -37,8 +39,6 @@
 
     <main class="content">
         <h1>Homepage</h1>
-        <h3>Welcome back {{ session["user"] }}! </h3>
-        <br>
         <h2>Sales Report for the Last Week</h2>
 
         {% if sold | length == 0 %}
