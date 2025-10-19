@@ -15,8 +15,8 @@ def login():
         return render_template("login.html")
     
     user = request.form.get("username")
-    '''if user == "":
-        return render_template("login.html", text="No fields may be left empty.")'''
+    if user == "":
+        return render_template("login.html", text="No fields may be left empty.")
 
     session["user"] = user
 
@@ -128,7 +128,8 @@ def banks():
     
 
     if request.method == "GET":
-        return render_template("banks.html", loans=player.getLoans(), banks=BANKS, money="{:.2f}".format(player.getMoney()), time=rn)
+        msgs = [rn, "{:.2f}".format(player.getMoney()), BANKS, "", "", player.getLoans(), "", ""]
+        return render_template("banks.html", msgs=msgs)
 
     
 
@@ -136,9 +137,9 @@ def banks():
     
     # no fields can be empty
     if amount == "":
-        return render_template("banks.html", text="No fields may be left empty.", loans=player.getLoans(), banks=BANKS, money="{:.2f}".format(player.getMoney()), time=rn)
+        msgs = [rn, "{:.2f}".format(player.getMoney()), BANKS, "No fields may be left empty.", "", player.getLoans(), "", ""]
+        return render_template("banks.html", msgs=msgs)
     
-
     # loan approved 
     # add amoun to account 
     player.addMoney(float(amount))
@@ -153,9 +154,10 @@ def banks():
 
     # existingLoans = player.getLoans()
 
-    player.addLoan(name, amount, interest, time, rn)
+    player.addLoan(name, amount, interest)
     print(player.getLoans())
-    return render_template("banks.html", text2="Loan Approved.", loans=player.getLoans(), banks=BANKS, money="{:.2f}".format(player.getMoney()), time=rn)
+    msgs = [rn, "{:.2f}".format(player.getMoney()), BANKS, "", "Credit approved", player.getLoans(), "", ""]
+    return render_template("banks.html", msgs=msgs)
 
 
 @app.route("/advance", methods=["POST", "GET"])
@@ -175,10 +177,10 @@ def advanceTime():
         if totalRunningCost > player.getMoney():
             moneh = player.getMoney()
             player.addMoney(-moneh) # Zero Money
-            player.addLoan("Machine Maintenance", totalRunningCost - moneh, 0.30, 0, rn) # Add difference as a loan
+            player.addLoan("Machine Maintenance", totalRunningCost - moneh, 0.30) # Add difference as a loan
 
             #TODO ADD MESSAGE ABOUT THIS
-            flash("You didn't have enough money to run all your machines, emergency loan taken. PAY IMMEDIATELY!!!", 'danger')
+            flash("You didn't have enough money to run all your machines, emergency maintainence credit taken. PAY IMMEDIATELY!!!", 'danger')
             
             #TODO DISPLAY WEEKLY RUNNING COST IN BUSINESS TAB IG??? 
 
@@ -187,7 +189,7 @@ def advanceTime():
 
         # Overdue
         if loanStatus == "Overdue":
-            flash("Payment for a loan was overdue, your interest has been increased.",'error')
+            flash("Payment for credit was overdue, your interest has been increased.",'error')
 
         # Game Over
         elif loanStatus == "Game Over": 
@@ -203,7 +205,7 @@ def advanceTime():
             flash("You didn't have any machines working.", 'warning')
 
         else:
-            flash("1 week advanced, loans are normal.", 'success')
+            flash("1 week advanced, credit is normal.", 'success')
 
 
 
@@ -221,6 +223,16 @@ def repay():
 
     if amount is None:
         msg = "Try again"
+    
+    # check 1 week
+    currenLoans = player.getLoans()
+    for loan in currenLoans:
+        if loan["Name"] == bank:
+            time = loan["Payment Date"]
+            break
+
+    if time != 1:
+        msg = "You can only pay back credit the week before it's due."
 
     elif float(amount) <= player.getMoney():
         player.payLoan(bank, amount)
@@ -229,7 +241,10 @@ def repay():
     else:
         msg="You cannot afford to make this payment."
 
-    return render_template("banks.html", msg=msg, msg2=msg2, loans=player.getLoans(), banks=BANKS, money="{:.2f}".format(player.getMoney()), time=rn)
+    # return render_template("banks.html", msg=msg, msg2=msg2, loans=player.getLoans(), banks=BANKS, money="{:.2f}".format(player.getMoney()), time=rn)
+    msgs = [rn, "{:.2f}".format(player.getMoney()), BANKS, "", "", player.getLoans(), msg, msg2]
+    return redirect(url_for("banks", msgs=msgs))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

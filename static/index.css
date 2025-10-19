@@ -1,47 +1,233 @@
-.topnav {
-  background-color: #333;
-  overflow: hidden;
+/* ===== Base Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* ===== Light Mode (Default) ===== */
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #222;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== Navigation Bar ===== */
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e1e2f;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+}
 
 .topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+    color: #ddd;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 4px;
 }
-
 
 .topnav a:hover {
-  background-color: #3d0cde;
-  color: black;
+    background-color: #34344a;
+    color: #fff;
 }
 
-
-.topnav a.active {
-  background-color: #06a4af;
-  color: white;
+.topnav .active {
+    background-color: #0078d7;
+    color: #fff;
 }
 
-table, label {
-  font-size: 20px;
+.right-nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
+/* ===== Flash Messages ===== */
+.messages {
+    margin: 1rem auto;
+    max-width: 800px;
+}
+
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error,
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ===== Main Content ===== */
+.content {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.content h1 {
+    font-size: 2rem;
+    color: #0078d7;
+    margin-bottom: 0.5rem;
+}
+
+.content h2 {
+    font-size: 1.3rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+}
+
+.no-report {
+    font-style: italic;
+    color: #666;
+}
+
+/* ===== Tables ===== */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
 
 th, td {
-   outline: solid;
-   padding: 5px;
-   text-align: center;
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-#error {
-  color: red;
-  font-size: 20px;
+th {
+    background-color: #f1f3f5;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
-#success {
-  color: rgb(3, 175, 3);
-  font-size: 20px;
+tfoot th {
+    background-color: #0078d7;
+    color: white;
+    font-weight: bold;
+}
+
+tfoot td {
+    background-color: #e8f0fe;
+    font-weight: bold;
+}
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 700px) {
+    .topnav, .right-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .right-nav a {
+        padding-left: 0;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    table th, table td {
+        padding: 0.5rem;
+    }
+}
+
+/* ===== DARK MODE ===== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e6e6e6;
+    }
+
+    .topnav {
+        background-color: #0f0f1a;
+    }
+
+    .topnav a {
+        color: #ccc;
+    }
+
+    .topnav a:hover {
+        background-color: #1f1f2e;
+        color: #fff;
+    }
+
+    .topnav .active {
+        background-color: #0078d7;
+        color: #fff;
+    }
+
+    .content {
+        background-color: #1a1a26;
+        color: #e6e6e6;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+
+    .content h1 {
+        color: #4da3ff;
+    }
+
+    .content h2 {
+        color: #ccc;
+    }
+
+    table {
+        border-color: #2a2a3a;
+    }
+
+    th {
+        background-color: #222236;
+        color: #eee;
+    }
+
+    td {
+        border-bottom: 1px solid #2a2a3a;
+    }
+
+    tfoot th {
+        background-color: #0078d7;
+        color: #fff;
+    }
+
+    tfoot td {
+        background-color: #243d6b;
+        color: #fff;
+    }
+
+    .alert-success {
+        background-color: #1c3522;
+        color: #9fd6a6;
+    }
+
+    .alert-danger,
+    .alert-error {
+        background-color: #3b1f1f;
+        color: #f5a3a3;
+    }
+
+    .no-report {
+        color: #aaa;
+    }
 }

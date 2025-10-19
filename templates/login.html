@@ -6,14 +6,13 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
 </head>
-<body>
+<body style="text-align: center;"><br><br><br>
+    <h1 style="font-size: 100px;">Username</h1>
     <form method="POST">
-        <table>
-            <th>Username :</th>
-            <th><input type="text" name="username" id="username"></th>
-            <th><input type="submit"></th>
-        </table>
+            <input type="text" name="username" id="username" autofocus="on" autocomplete="off" style="height: 30px; width:200px; font-size: 25px;"><br><br>
+            <input type="submit" value="Submit" style="height: 30px; width: 70px;">
     </form>
-    <p name="error" id="error">{{ text }}</p>
+    <br>
+    <p name="error" id="error" style="color: red; font-size: 20px;">{{ text }}</p>
 </body>
 </html>

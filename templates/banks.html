@@ -9,13 +9,14 @@
     <div class="topnav">
         <a href="/">Home</a>
         <a href="business">Business</a>
-        <a href="employee">Employee</a>
         <a href="vendors">Vendors</a>
         <a class="active" href="banks">Banks</a>
-        <a href="logout" style="float: right">Logout</a>
-        <a style="float: right">Week : {{time}}</a>
-        <a href="advance" style="float: right">Advance 1 Week</a>
-        <a style="float: right"> £{{ money }}</a>
+        <div class="right-nav">
+            <a href="logout">Logout</a>
+            <a>Week: {{ msgs[0] }}</a>
+            <a href="advance">Advance 1 Week</a>
+            <a>£{{ msgs[1] }}</a>
+        </div>
     </div>
 
 
@@ -24,36 +25,34 @@
         <table style="text-align: center;">
             <tr>
                 <th>Bank Name</th>
-                <th>Maximum Loan (£)</th>
+                <th>Maximum Credit (£)</th>
                 <th>Interest Rate (%)</th>
-                <th>Duration (months) </th>
                 <th>Request Credit (£)</th>
             </tr>
-            {% for i in range(banks | length) %}
+            {% for i in range(msgs[2] | length) %}
             <tr>
                 <form method="POST">
-                    <td>{{ banks[i]["Name"] }}</td>
-                    <td>{{ banks[i]["Max Amount"] }}</td>
-                    <td> {{ banks[i]["Interest" ]}} </td>
-                    <td> {{ banks[i]["Time"] / 4 }} </td>
+                    <td>{{ msgs[2][i]["Name"] }}</td>
+                    <td>{{ msgs[2][i]["Max Amount"] }}</td>
+                    <td> {{ msgs[2][i]["Interest" ]}} </td>
                     <td>
                         <input type="hidden" name="index" id="index" value="{{ i }}">
-                        <input type="number" min="0.01" max="{{ banks[i]["Max Amount"] }}" step="0.01" name="amount" id="amount" placeholder="Amount">
-                        <input type="submit">
+                        <input type="number" min="0.01" max="{{ msgs[2][i]["Max Amount"] }}" step="0.01" name="amount" id="amount" placeholder="Amount">
+                        <input type="submit" value="Submit">
                     </td>
                 </form>
             </tr>
             {% endfor %}
         </table>
         <br><br> 
-        <p name="error" id="error">{{ text }}</p>
-        <p name="success" id="success">{{ text2 }}</p>
+        <p name="error" id="error">{{ msgs[3] }}</p>
+        <p name="success" id="success">{{ msgs[4] }}</p>
     </div>
 
     <div>
-        <h1>Repay Loans</h1>
-        {% if loans | length == 0 %}
-            <p>No loans to repay</p>
+        <h1>Repay Credit</h1>
+        {% if msgs[5] | length == 0 %}
+            <p>No credit to repay</p>
         
             {% else %}
         <table>
@@ -62,26 +61,26 @@
                 <th>Amount Due (£)</th>
                 <th>Interest (%)</th>
                 <th>Payment Date (weeks)</th>
-                <th>Repay Loan</th>
+                <th>Repay Credit</th>
             </tr>
-            {% for loan in loans %}
+            {% for loan in msgs[5] %}
             <tr>
                 <td>{{ loan["Name"] }}</td>
-                <td>{{ loan["Amount"] }}</td>
+                <td>{{ "{:.2f}".format(loan["Amount"]) }}</td>
                 <td> {{ loan["Interest" ]}} </td>
                 <td> {{ loan["Payment Date"] }}</td>
                 <td>
                     <form action="/repay" method="POST">
                         <input type="hidden" name="bank" id="bank" value="{{ loan["Name"] }}">
                         <input type="number" name="repayAmount" id="repayAmount" min="0" max="{{ loan["Amount"] }}" step="0.01">
-                        <input type="submit"> 
+                        <input type="submit" value="Submit"> 
                     </form>
                 </td>
             </tr>
             {% endfor %}
         </table>
         {% endif %}
-        <p name="error" id="error">{{ msg }}</p>
-        <p name="success" id="success">{{ msg2 }}</p>
+        <p name="error" id="error">{{ msgs[6] }}</p>
+        <p name="success" id="success">{{ msgs[7] }}</p>
     </div>
 {% endblock %}

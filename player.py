@@ -13,6 +13,7 @@ class Player:
 
     data = {"loans": [], "machines": {"Amount": 0, "Resources": {}, "Previous Week": {}}}
     currentPrices = None
+    paidMin = False
 
     def __init__(self, name, money):
         self.name = name
@@ -50,7 +51,7 @@ class Player:
         self.data["machines"]["Resources"] = resources
         self.storeUserData()
 
-        self.addMoney(-price)
+        self.addMoney(-price*amount)
 
     def editPrice(self, name, newPrice):
         resources = self.getResources()
@@ -65,7 +66,7 @@ class Player:
         self.data["machines"]["Amount"] += int(numberAdded)
         self.storeUserData()
 
-        self.addMoney(-MACHINECOST)
+        self.addMoney(-MACHINECOST*numberAdded)
 
     # Returns Name : Current Sales Value
     def getCurrentPrices(self):
@@ -89,11 +90,18 @@ class Player:
         self.data = json.loads(self.getUserData())
         return self.data["money"]
 
-    def addLoan(self, name, amount, interest, time, rn):
+    def addLoan(self, name, amount, interest):
         amount = int(amount)
         interest = float(interest)
         self.data = json.loads(self.getUserData())
-        self.data["loans"].append({"Name": name, "Amount": amount, "Interest": interest, "Payment Date": 4})
+
+        for loan in self.data["loans"]:
+            if loan["Name"] == name:
+                loan["Amount"] += amount
+                break
+        else:
+            self.data["loans"].append({"Name": name, "Amount": amount, "Interest": interest, "Payment Date": 4})
+        
         self.storeUserData()
 
     def getLoans(self):
@@ -138,8 +146,13 @@ class Player:
                 loans[i]["Interest"] += 0.02
                 status = "Overdue"
 
-            print(loans)
-            loans[i]["Amount"] *= (1 + loans[i]["Interest"] / 12) 
+            # Apply interest monthly
+            if (loans[i]["Payment Date"] == 0):
+                loans[i]["Amount"] *= (1 + loans[i]["Interest"] / 12) 
+
+                if self.paidMin:
+                    loans[i]["Payment Date"] += 4
+                    self.paidMin = False
 
             # Hard round here cuz i cba to find where to round in proper place
             loans[i]["Amount"] = round(loans[i]["Amount"], 2)
@@ -214,6 +227,9 @@ class Player:
         totalMoney = 0
         for loan in self.data["loans"]:
             if loan["Name"] == name:
+                if amount >= 0.5 * loan["Amount"]:
+                    self.paidMin = True
+
                 loan["Amount"] -= amount
                 totalMoney += amount
 

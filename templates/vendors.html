@@ -9,13 +9,14 @@
     <div class="topnav">
         <a href="/">Home</a>
         <a href="business">Business</a>
-        <a href="employee">Employee</a>
         <a class="active" href="vendors">Vendors</a>
         <a href="banks">Banks</a>
-        <a href="logout" style="float: right">Logout</a>
-        <a style="float: right">Week : {{time}}</a>
-        <a href="advance" style="float: right">Advance 1 Week</a>
-        <a style="float: right"> £{{ money }}</a>
+        <div class="right-nav">
+            <a href="logout">Logout</a>
+            <a>Week: {{ time }}</a>
+            <a href="advance">Advance 1 Week</a>
+            <a>£{{ money }}</a>
+        </div>
     </div>
 
 
@@ -36,7 +37,7 @@
                             <input type="hidden" name="name" id="name" value="{{ item }}">
                             <input type="hidden" name="price" id="price" value=" {{ price[item] }}">
                             <input type="number" min="0" name="amountResources" id="amountResources" placeholder="Amount">
-                            <input type="submit">
+                            <input type="submit" value="Submit">
                         </form>
                     </td>
                 </tr>

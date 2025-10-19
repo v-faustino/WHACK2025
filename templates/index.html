@@ -10,56 +10,69 @@
 </head>
 <body>
     {% block body %}
-    <div class="topnav">
+    <nav class="topnav">
         <a class="active" href="">Home</a>
         <a href="business">Business</a>
-        <a href="employee">Employee</a>
         <a href="vendors">Vendors</a>
         <a href="banks">Banks</a>
-        <a href="logout" style="float: right">Logout</a>
-        <a style="float: right">Week : {{time}}</a>
-        <a href="advance" style="float: right">Advance 1 Week</a>
-        <a style="float: right"> £{{ money }}</a> 
-    </div>
+        <div class="right-nav">
+            <a href="logout">Logout</a>
+            <a>Week: {{ time }}</a>
+            <a href="advance">Advance 1 Week</a>
+            <a>£{{ money }}</a>
+        </div>
+    </nav>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
+            <div class="messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
     {% endwith %}
-    <div>
-        <h1>Homepage</h1>
-        <h2>Sales report for the last week</h2>
-        {% if sold | length == 0 %}
-        <p>You have no report for the past week </p>
 
+    <main class="content">
+        <h1>Homepage</h1>
+        <h3>Welcome back {{ session["user"] }}! </h3>
+        <br>
+        <h2>Sales Report for the Last Week</h2>
+
+        {% if sold | length == 0 %}
+        <p class="no-report">You have no report for the past week.</p>
         {% else %}
-        <table>
-            <tr>
-                <th>Item</th>
-                <th>Amount Sold</th>
-                <th>Sold At Price (£)</th>
-            </tr>
-            {% for item in sold %}
-                <tr>
-                    <td> {{ item }} </td>
-                    <td> {{ sold[item][0] }} </td>
-                    <td> {{ "{:.2f}".format(sold[item][1]) }} </td>
-                </tr>
-            {% endfor %}
-            <tr>
-                <th>Total</th>
-                <td>{{ amount }}</td>
-                <td>{{ rev }}</td>
-            </tr>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Amount Sold</th>
+                        <th>Sold At Price (£)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in sold %}
+                    <tr>
+                        <td>{{ item }}</td>
+                        <td>{{ sold[item][0] }}</td>
+                        <td>{{ "{:.2f}".format(sold[item][1]) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <td>{{ amount }}</td>
+                        <td>{{ rev }}</td>
+                    </tr>
+                </tfoot>
             </table>
+        </div>
         {% endif %}
-    </div>
+    </main>
     {% endblock %}
 </body>
 </html>

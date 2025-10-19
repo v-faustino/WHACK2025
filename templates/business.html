@@ -10,13 +10,14 @@
     <div class="topnav">
         <a href="/">Home</a>
         <a class="active" href="business">Business</a>
-        <a href="employee">Employee</a>
         <a href="vendors">Vendors</a>
         <a href="banks">Banks</a>
-        <a href="logout" style="float: right">Logout</a>
-        <a style="float: right">Week : {{time}}</a>
-        <a href="advance" style="float: right">Advance 1 Week</a>
-        <a style="float: right"> £{{ money }}</a>
+        <div class="right-nav">
+            <a href="logout">Logout</a>
+            <a>Week: {{ time }}</a>
+            <a href="advance">Advance 1 Week</a>
+            <a>£{{ money }}</a>
+        </div>
     </div>
         <h1>Vending Machines</h1>
         <table>
@@ -31,7 +32,7 @@
                 <td>
                     <form method="POST">
                         <input type="number" min="0" name="amountMachines" id="amountMachines" placeholder="Amount">
-                        <input type="submit">
+                        <input type="submit" value="Submit">
                     </form>
                 </td>
             </tr>
@@ -60,7 +61,7 @@
                         <form method="POST">
                             <input type="hidden" name="item" id="item" value="{{ resource }}">
                             <input type="number" name="newPrice" id="newPrice" placeholder="Set new price">
-                            <input type="submit">
+                            <input type="submit" value="Submit">
                         </form>
                     </td>
                 </tr>
